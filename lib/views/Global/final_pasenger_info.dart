@@ -129,179 +129,278 @@ class _EnterinfoState extends State<Enterinfo> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: Container(
-                          margin: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              boxShadow: const [
-                                BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                              ],
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: DropdownButtonFormField<String>(
-                              value: _selectedTitle,
-                              items: _titles.map((String title) {
-                                return DropdownMenuItem<String>(
-                                  value: title,
-                                  child: Text(
-                                    title,
-                                    style: const TextStyle(),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (newValue) {
-                                setState(() {
-                                  _selectedTitle = newValue!;
-                                });
-                              },
-                              decoration: const InputDecoration(
-                                border:
-                                    InputBorder.none, // sets the border to none
-                                hintText: 'Select an option',
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: DropdownButtonFormField<String>(
+                          value: _selectedTitle,
+                          items: _titles.map((String title) {
+                            return DropdownMenuItem<String>(
+                              value: title,
+                              child: Text(
+                                title,
+                                style: const TextStyle(),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedTitle = newValue!;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            border: InputBorder.none, // sets the border to none
+                            hintText: 'Select an option',
+                            floatingLabelStyle: const TextStyle(
+                                color: Colors.green, fontSize: 18),
+                            contentPadding: const EdgeInsets.all(22),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 13, 213, 130),
                               ),
                             ),
-                          )),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 13, 213, 130),
+                                width: 3,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                              ),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 13, 213, 130),
+                                width: 3,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     Expanded(
                       flex: 3,
-                      child: Container(
-                          margin: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              boxShadow: const [
-                                BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                              ],
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: TextFormField(
-                              controller: fName,
-                              decoration: const InputDecoration(
-                                labelText: "First name",
-                                //hintText: "First name",
-                                border: InputBorder.none,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: TextFormField(
+                          controller: fName,
+                          decoration: InputDecoration(
+                            labelText: "First name",
+                            //hintText: "First name",
+                            border: InputBorder.none,
+                            floatingLabelStyle: const TextStyle(
+                                color: Colors.green, fontSize: 18),
+                            contentPadding: const EdgeInsets.all(25),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 13, 213, 130),
                               ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "You did not enter your first name";
-                                }
-                                if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
-                                  return 'Please enter a valid name';
-                                }
-                                return null;
-                              },
                             ),
-                          )),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 13, 213, 130),
+                                width: 3,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                              ),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 13, 213, 130),
+                                width: 3,
+                              ),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "You did not enter your first name";
+                            }
+                            if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                              return 'Please enter a valid name';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                Container(
-                    margin: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                        ],
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: TextFormField(
-                        controller: mName,
-                        decoration: const InputDecoration(
-                          labelText: "Middle name",
-                          //hintText: "Midle name",
-                          border: InputBorder.none,
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: TextFormField(
+                    controller: mName,
+                    decoration: InputDecoration(
+                      labelText: "Middle name",
+                      //hintText: "Midle name",
+                      border: InputBorder.none,
+                      floatingLabelStyle:
+                          const TextStyle(color: Colors.green, fontSize: 18),
+                      contentPadding: const EdgeInsets.all(25),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
                         ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "You did not enter your middle name";
-                          }
-                          if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
-                            return 'Please enter a valid name';
-                          }
-                          return null;
-                        },
                       ),
-                    )),
-                Container(
-                    margin: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                        ],
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: TextFormField(
-                        controller: lName,
-                        decoration: const InputDecoration(
-                          labelText: "Last name",
-                          //hintText: "Last name",
-                          border: InputBorder.none,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                          width: 3,
                         ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "You did not enter your last name";
-                          }
-                          if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
-                            return 'Please enter a valid name';
-                          }
-                          return null;
-                          //return null;
-                        },
                       ),
-                    )),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                          width: 3,
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "You did not enter your middle name";
+                      }
+                      if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                        return 'Please enter a valid name';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: TextFormField(
+                    controller: lName,
+                    decoration: InputDecoration(
+                      labelText: "Last name",
+                      //hintText: "Last name",
+                      border: InputBorder.none,
+                      floatingLabelStyle:
+                          const TextStyle(color: Colors.green, fontSize: 18),
+                      contentPadding: const EdgeInsets.all(25),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                          width: 3,
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                          width: 3,
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "You did not enter your last name";
+                      }
+                      if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                        return 'Please enter a valid name';
+                      }
+                      return null;
+                      //return null;
+                    },
+                  ),
+                ),
                 Row(
                   children: [
                     Expanded(
                       //flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.all(3.0),
-                        child: Container(
-                            margin: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                boxShadow: const [
-                                  BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                                ],
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: TextFormField(
-                                controller: ssn,
-                                decoration: const InputDecoration(
-                                  labelText: " SSN",
-                                  border: InputBorder.none,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextFormField(
+                            controller: ssn,
+                            decoration: InputDecoration(
+                              labelText: " SSN",
+                              border: InputBorder.none,
+                              floatingLabelStyle: const TextStyle(
+                                  color: Colors.green, fontSize: 18),
+                              contentPadding: const EdgeInsets.all(25),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 13, 213, 130),
                                 ),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter your ID number';
-                                  }
-                                  if (!RegExp(r'^\d{10}$').hasMatch(value)) {
-                                    return 'Please enter a valid ID number (10 digits)';
-                                  }
-                                  int sum = 0;
-                                  for (int i = 0; i < 9; i++) {
-                                    int digit = int.parse(value[i]);
-                                    if (i % 2 == 0) {
-                                      digit *= 2;
-                                      if (digit > 9) {
-                                        digit -= 9;
-                                      }
-                                    }
-                                    sum += digit;
-                                  }
-                                  //لاتنسى تشيل الكومنت
-                                  // int checkDigit = (sum * 9) % 10;
-                                  // if (checkDigit != int.parse(value[9])) {
-                                  //   return 'Invalid ID number';
-                                  // }
-                                  return null;
-                                },
                               ),
-                            )),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 13, 213, 130),
+                                  width: 3,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 13, 213, 130),
+                                  width: 3,
+                                ),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter your ID number';
+                              }
+                              if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                                return 'Please enter a valid ID number (10 digits)';
+                              }
+                              int sum = 0;
+                              for (int i = 0; i < 9; i++) {
+                                int digit = int.parse(value[i]);
+                                if (i % 2 == 0) {
+                                  digit *= 2;
+                                  if (digit > 9) {
+                                    digit -= 9;
+                                  }
+                                }
+                                sum += digit;
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
@@ -315,7 +414,11 @@ class _EnterinfoState extends State<Enterinfo> {
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 boxShadow: const [
-                                  BoxShadow(blurRadius: 2, offset: Offset(0, 0))
+                                  BoxShadow(
+                                    blurRadius: 2.5,
+                                    offset: Offset(0, 0),
+                                    color: Color.fromARGB(255, 13, 213, 130),
+                                  )
                                 ],
                                 borderRadius: BorderRadius.circular(15),
                                 color: Colors.white),
@@ -365,47 +468,73 @@ class _EnterinfoState extends State<Enterinfo> {
                     ),
                   ],
                 ),
-                Container(
-                    margin: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                        ],
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: DropdownButtonFormField<String>(
-                        value: selectedMeal,
-                        items: mealList.map((String title) {
-                          return DropdownMenuItem<String>(
-                            value: title,
-                            child: Text(
-                              title,
-                              style: const TextStyle(),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (newValue) {
-                          setState(() {
-                            selectedMeal = newValue!;
-                          });
-                        },
-                        decoration: const InputDecoration(
-                          border: InputBorder.none, // sets the border to none
-                          hintText: 'Select an option',
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: DropdownButtonFormField<String>(
+                    value: selectedMeal,
+                    items: mealList.map((String title) {
+                      return DropdownMenuItem<String>(
+                        value: title,
+                        child: Text(
+                          title,
+                          style: const TextStyle(),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedMeal = newValue!;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      border: InputBorder.none, // sets the border to none
+                      labelText: 'Select an option',
+                      floatingLabelStyle:
+                          const TextStyle(color: Colors.green, fontSize: 18),
+                      contentPadding: const EdgeInsets.all(25),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
                         ),
                       ),
-                    )),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                          width: 3,
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                          width: 3,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Container(
-                    margin: const EdgeInsets.all(5),
+                    margin: const EdgeInsets.only(
+                        top: 5, bottom: 5, left: 10, right: 10),
                     width: double.infinity,
                     //padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         boxShadow: const [
-                          BoxShadow(blurRadius: 2, offset: Offset(0, 0))
+                          BoxShadow(
+                            blurRadius: 4,
+                            offset: Offset(0, 0),
+                            color: Color.fromARGB(255, 13, 213, 130),
+                          )
                         ],
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(10),
                         color: Colors.white),
                     child: Padding(
                         padding: const EdgeInsets.all(10.0),
@@ -585,10 +714,7 @@ class _EnterinfoState extends State<Enterinfo> {
                     padding: const EdgeInsets.all(15),
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      boxShadow: const [
-                        BoxShadow(blurRadius: 2, offset: Offset(0, 0)),
-                      ],
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                       color: const Color.fromARGB(255, 13, 213, 130),
                     ),
                     child: Center(

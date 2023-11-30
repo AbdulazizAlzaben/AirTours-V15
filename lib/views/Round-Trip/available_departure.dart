@@ -1,4 +1,5 @@
 import 'package:AirTours/services/cloud/cloud_flight.dart';
+import 'package:AirTours/services/cloud/firebase_cloud_storage.dart';
 import 'package:AirTours/views/Round-Trip/available_return.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class RoundTripSearch1 extends StatefulWidget {
 }
 
 class _RoundTripSearch1State extends State<RoundTripSearch1> {
+  FirebaseCloudStorage c = FirebaseCloudStorage();
   late final FlightFirestore _flightsService;
   void toNext(CloudFlight flight1, double flightPrice1, String flightClass) {
     Navigator.push(
@@ -135,95 +137,106 @@ class _RoundTripSearch1State extends State<RoundTripSearch1> {
                           flightTime.hour,
                           flightTime.minute);
 
-                      if (DateTime.now().isBefore(totalFlightTime)) {
-                        return GestureDetector(
-                          onTap: () {
-                            toNext(flight, flightText, widget.flightClass);
-                          },
-                          child: Container(
-                              //width: double.infinity,
-                              margin: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        blurRadius: 2, offset: Offset(0, 0))
-                                  ],
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                      return FutureBuilder(
+                        future: c.isDuplicateFlight(flight.documentId),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.data! == true) {
+                            return const SizedBox.shrink();
+                          } else if (DateTime.now().isBefore(totalFlightTime)) {
+                            return GestureDetector(
+                              onTap: () {
+                                toNext(flight, flightText, widget.flightClass);
+                              },
+                              child: Container(
+                                  //width: double.infinity,
+                                  margin: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            blurRadius: 2, offset: Offset(0, 0))
+                                      ],
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.white),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text(flight.fromCity),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(flight.fromCity),
+                                            Container(
+                                              height: 40,
+                                              child: Image.asset(
+                                                  'images/flightFromTo.jpg'),
+                                            ),
+                                            Text(flight.toCity),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              //MainAxisAlignment.spaceEvenly,
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              _flightsService
+                                                  .formatTime(flight.depTime),
+                                            ),
+                                            Text(calculateTravelTime(
+                                                flight.depDate,
+                                                flight.arrDate,
+                                                flight.depTime,
+                                                flight.arrTime)),
+                                            Text(
+                                              _flightsService
+                                                  .formatTime(flight.arrTime),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
                                         Container(
-                                          height: 40,
-                                          child: Image.asset(
-                                              'images/flightFromTo.jpg'),
+                                          height: 1.0,
+                                          color: Colors.black,
+                                          width: double.infinity,
+                                          //child: SizedBox.expand(),
                                         ),
-                                        Text(flight.toCity),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          //MainAxisAlignment.spaceEvenly,
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          _flightsService
-                                              .formatTime(flight.depTime),
-                                        ),
-                                        Text(calculateTravelTime(
-                                            flight.depDate,
-                                            flight.arrDate,
-                                            flight.depTime,
-                                            flight.arrTime)),
-                                        Text(
-                                          _flightsService
-                                              .formatTime(flight.arrTime),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      height: 1.0,
-                                      color: Colors.black,
-                                      width: double.infinity,
-                                      //child: SizedBox.expand(),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          "Price",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.green),
-                                        ),
-                                        Text(
-                                          "$flightText SAR",
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.green),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              "Price",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.green),
+                                            ),
+                                            Text(
+                                              "$flightText SAR",
+                                              style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.green),
+                                            )
+                                          ],
                                         )
                                       ],
-                                    )
-                                  ],
-                                ),
-                              )),
-                        );
-                      } else {
-                        return const SizedBox.shrink();
-                      }
+                                    ),
+                                  )),
+                            );
+                          } else {
+                            return const SizedBox.shrink();
+                          }
+                        },
+                      );
                     },
                   );
                 } else {

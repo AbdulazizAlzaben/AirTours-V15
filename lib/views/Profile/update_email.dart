@@ -57,18 +57,20 @@ class _UpdateEmailViewState extends State<UpdateEmailView> {
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.email,color: Colors.green), //new line(prefixIcon)
+                      prefixIcon: Icon(Icons.email,
+                          color: Colors.green), //new line(prefixIcon)
                       border: InputBorder.none,
                       labelText: 'New Email',
                     ),
                     validator: (value) {
-                      if (value!.isEmpty || !RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z]+\.(com)$').hasMatch(value)) {
+                      if (value!.isEmpty ||
+                          !RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z]+\.(com)$')
+                              .hasMatch(value)) {
                         return 'Enter correct email';
                       } else {
                         return null;
-                      } 
+                      }
                     },
-                  
                   ),
                 ),
                 const SizedBox(height: 16.0),
@@ -77,31 +79,28 @@ class _UpdateEmailViewState extends State<UpdateEmailView> {
                     bool isSuccessful = false;
                     setState(() {
                       if (formKey.currentState!.validate()) {
-                          isSuccessful = true;
-                        }
-                      });
+                        isSuccessful = true;
+                      }
+                    });
                     if (isSuccessful) {
-                    String newEmail = _email.text;
-                    try {
-                      await FirebaseAuthProvider.authService()
-                          .updateUserEmail(email: newEmail);
+                      String newEmail = _email.text;
+                      try {
+                        await FirebaseAuthProvider.authService()
+                            .updateUserEmail(email: newEmail);
 
-                      final String currentUser =
-                          FirebaseAuthProvider.authService().currentUser!.id;
-                      c.updateUser(
-                          ownerUserId: currentUser,
-                          email: newEmail,
-                          phoneNum: "0580647715");
-                      await showSuccessDialog(context, 'Information Updated');
-                      await FirebaseAuthProvider.authService().logOut();
-                      await Navigator.of(context).pushNamed(loginRoute);
-                    } on EmailAlreadyInUseAuthException {
-                      await showErrorDialog(context, 'Email Already Used');
-                    } on InvalidEmailAuthException {
-                      await showErrorDialog(context, 'Invalid Email');
-                    } on GenericAuthException {
-                      await showErrorDialog(context, 'Updating Error');
-                    }
+                        final String currentUser =
+                            FirebaseAuthProvider.authService().currentUser!.id;
+                        c.updateUser(ownerUserId: currentUser, email: newEmail);
+                        await showSuccessDialog(context, 'Information Updated');
+                        await FirebaseAuthProvider.authService().logOut();
+                        await Navigator.of(context).pushNamed(loginRoute);
+                      } on EmailAlreadyInUseAuthException {
+                        await showErrorDialog(context, 'Email Already Used');
+                      } on InvalidEmailAuthException {
+                        await showErrorDialog(context, 'Invalid Email');
+                      } on GenericAuthException {
+                        await showErrorDialog(context, 'Updating Error');
+                      }
                     }
                   },
                   child: Container(
@@ -126,8 +125,8 @@ class _UpdateEmailViewState extends State<UpdateEmailView> {
                 const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () async {
-                   await Navigator.of(context)
-                      .pushNamedAndRemoveUntil(bottomRoute, (route) => false);
+                    await Navigator.of(context)
+                        .pushNamedAndRemoveUntil(bottomRoute, (route) => false);
                   },
                   child: Container(
                     margin: const EdgeInsets.only(left: 8, right: 8),
@@ -156,10 +155,3 @@ class _UpdateEmailViewState extends State<UpdateEmailView> {
     );
   }
 }
-
-
-
-
-
-
-

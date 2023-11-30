@@ -245,10 +245,10 @@ class _OneWayDetailsState extends State<OneWayDetails> {
                           if (await _flightsService.didFly(
                               departureFlightId: departFlight.documentId)) {
                             bool? nextPage = await Navigator.push<bool>(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const UpgradeCard()),
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UpgradeCard()),
+                            );
                             if (nextPage == true) {
                               bool result = await _bookingService.upgradeOneWay(
                                 bookingId: currentBooking.documentId,
@@ -314,7 +314,7 @@ class _OneWayDetailsState extends State<OneWayDetails> {
                                   .currentUser!
                                   .id,
                               canceledBookingPrice);
-                          showSuccessDialog(
+                          await showSuccessDialog(
                               context, 'Booking successfully deleted.');
                           Navigator.pop(context);
                         } else {
@@ -341,6 +341,9 @@ class _OneWayDetailsState extends State<OneWayDetails> {
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    height: 30,
+                  )
                 ],
               ),
             ),

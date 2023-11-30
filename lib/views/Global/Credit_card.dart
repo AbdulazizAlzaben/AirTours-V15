@@ -1,4 +1,5 @@
 import 'package:AirTours/utilities/show_balance.dart';
+import 'package:AirTours/utilities/show_feedback.dart';
 import 'package:AirTours/views/Global/global_var.dart';
 import 'package:AirTours/views/Global/ticket.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,10 +11,6 @@ import '../../services/cloud/firestore_booking.dart';
 import '../../services/cloud/firestore_ticket.dart';
 import '../../services_auth/firebase_auth_provider.dart';
 import '../../utilities/show_error.dart';
-
-
-
-
 
 class Creditcard extends StatefulWidget {
   final String id1;
@@ -34,7 +31,7 @@ class Creditcard extends StatefulWidget {
 }
 
 class _CreditcardState extends State<Creditcard> {
-  final user = FirebaseFirestore.instance.collection('user'); 
+  final user = FirebaseFirestore.instance.collection('user');
   final formKey = GlobalKey<FormState>();
   TextEditingController cardNumber = TextEditingController();
   TextEditingController cardName = TextEditingController();
@@ -46,8 +43,6 @@ class _CreditcardState extends State<Creditcard> {
   late double price;
   late double balance;
   bool notInitialized = true;
- 
-  
 
   @override
   void initState() {
@@ -85,11 +80,8 @@ class _CreditcardState extends State<Creditcard> {
     }
   }
 
-  
-
   void toNext(List<Ticket> alltickets) async {
-
-    final tmp = await createBooking(retrieveTotBookingsPrice()); 
+    final tmp = await createBooking(retrieveTotBookingsPrice());
 
     alltickets.forEach((ticket) async {
       await _ticketService.createNewTicket(
@@ -108,17 +100,15 @@ class _CreditcardState extends State<Creditcard> {
     });
   }
 
-  
-   double retrieveTotBookingsPrice() {
-      double totBookingPrice = 0;
-      for (final x in widget.tickets) {
-        totBookingPrice = totBookingPrice + x.ticketPrice;
-      }
-      return totBookingPrice;
+  double retrieveTotBookingsPrice() {
+    double totBookingPrice = 0;
+    for (final x in widget.tickets) {
+      totBookingPrice = totBookingPrice + x.ticketPrice;
+    }
+    return totBookingPrice;
   }
- 
 
-  Future<double> showBalance() async { 
+  Future<double> showBalance() async {
     if (notInitialized) {
       balance = await showUserBalance();
       notInitialized = false;
@@ -127,26 +117,23 @@ class _CreditcardState extends State<Creditcard> {
   }
 
   Future<void> discountBookingPrice() async {
-
     if (price <= balance) {
       if (price == 0.0) {
-        await showErrorDialog(context, "Can't Discount More, Your Booking Price is already 0");
-      }
-      else {
-          balance = balance - price;
-          price = 0.0;
+        await showErrorDialog(
+            context, "Can't Discount More, Your Booking Price is already 0");
+      } else {
+        balance = balance - price;
+        price = 0.0;
       }
     } else {
       if (balance == 0.0) {
         await showErrorDialog(context, 'No Balance Available!');
       } else {
-          price = price - balance;
-          balance = 0.0;
+        price = price - balance;
+        balance = 0.0;
       }
-      
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -158,26 +145,33 @@ class _CreditcardState extends State<Creditcard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                    Text('Booking Price: $price',style: const TextStyle(fontSize: 16),),
-                    const SizedBox(width: 10,),
-                    FutureBuilder<double>(
-                      future: showBalance(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else if (snapshot.hasData) {
-                          return Text("Your Balance: ${snapshot.data!}",style: const TextStyle(fontSize: 16),);
-                        } else {
-                          return const Text('No Data Available');
-                        }
-                      },
-                    )
+                  Text(
+                    'Booking Price: $price',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  FutureBuilder<double>(
+                    future: showBalance(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (snapshot.hasData) {
+                        return Text(
+                          "Your Balance: ${snapshot.data!}",
+                          style: const TextStyle(fontSize: 16),
+                        );
+                      } else {
+                        return const Text('No Data Available');
+                      }
+                    },
+                  )
                 ],
               ),
             ),
-              
           ],
         ),
         body: SafeArea(
@@ -188,157 +182,241 @@ class _CreditcardState extends State<Creditcard> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Container(
-                      margin: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          boxShadow: const [
-                            BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                          ],
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white),
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(16),
-                            CardNumber(),
-                          ],
-                          controller: cardNumber,
-                          decoration: const InputDecoration(
-                            labelText: "Card Number",
-                            border: InputBorder.none,
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(16),
+                        CardNumber(),
+                      ],
+                      controller: cardNumber,
+                      decoration: InputDecoration(
+                        labelText: "Card Number",
+                        border: InputBorder.none,
+                        floatingLabelStyle:
+                            const TextStyle(color: Colors.green, fontSize: 18),
+                        contentPadding: const EdgeInsets.all(30),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 13, 213, 130),
                           ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Enter a card number";
-                            }
-                            if (value.length != 22) {
-                              return "Enter a valid card number";
-                            }
-                            return null;
-                          },
                         ),
-                      )),
-                  const SizedBox(
-                    height: 5,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 13, 213, 130),
+                            width: 3,
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: const BorderSide(
+                            color: Colors.red,
+                          ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 13, 213, 130),
+                            width: 3,
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Enter a card number";
+                        }
+                        if (value.length != 22) {
+                          return "Enter a valid card number";
+                        }
+                        if (!(value.startsWith('4') || value.startsWith('5'))) {
+                          return "Invalid card type";
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                  Container(
-                      margin: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          boxShadow: const [
-                            BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                          ],
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white),
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: TextFormField(
-                          controller: cardName,
-                          decoration: const InputDecoration(
-                            labelText: "Name",
-                            border: InputBorder.none,
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: TextFormField(
+                      controller: cardName,
+                      decoration: InputDecoration(
+                        labelText: "Name",
+                        border: InputBorder.none,
+                        floatingLabelStyle:
+                            const TextStyle(color: Colors.green, fontSize: 18),
+                        contentPadding: const EdgeInsets.all(30),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 13, 213, 130),
                           ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "You did not enter your first name";
-                            }
-                            if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
-                              return 'Please enter a valid name';
-                            }
-                            return null;
-                          },
                         ),
-                      )),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 13, 213, 130),
+                            width: 3,
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: const BorderSide(
+                            color: Colors.red,
+                          ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 13, 213, 130),
+                            width: 3,
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "You did not enter your first name";
+                        }
+                        if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                          return 'Please enter a valid name';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
                   Row(
                     children: [
                       Expanded(
-                        child: Container(
-                            margin: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                boxShadow: const [
-                                  BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                                ],
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                  LengthLimitingTextInputFormatter(3),
-                                ],
-                                controller: cvv,
-                                decoration: const InputDecoration(
-                                  labelText: "CVV",
-                                  hintText: "Enter the 3 digit number",
-                                  border: InputBorder.none,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(3),
+                            ],
+                            controller: cvv,
+                            decoration: InputDecoration(
+                              labelText: "CVV",
+                              hintText: "Enter the 3 digit number",
+                              border: InputBorder.none,
+                              floatingLabelStyle: const TextStyle(
+                                  color: Colors.green, fontSize: 18),
+                              contentPadding: const EdgeInsets.all(30),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 13, 213, 130),
                                 ),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Enter enter a CVV";
-                                  }
-                                  return null;
-                                },
                               ),
-                            )),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 13, 213, 130),
+                                  width: 3,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 13, 213, 130),
+                                  width: 3,
+                                ),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Enter enter a CVV";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
                       ),
                       Expanded(
-                        child: Container(
-                            margin: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                boxShadow: const [
-                                  BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                                ],
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly,
-                                  LengthLimitingTextInputFormatter(4),
-                                  CardExpiry(),
-                                ],
-                                controller: expiryDate,
-                                decoration: const InputDecoration(
-                                  labelText: "Expiry date",
-                                  hintText: "MM/YY",
-                                  border: InputBorder.none,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(4),
+                              CardExpiry(),
+                            ],
+                            controller: expiryDate,
+                            decoration: InputDecoration(
+                              labelText: "Expiry date",
+                              hintText: "MM/YY",
+                              border: InputBorder.none,
+                              floatingLabelStyle: const TextStyle(
+                                  color: Colors.green, fontSize: 18),
+                              contentPadding: const EdgeInsets.all(30),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 13, 213, 130),
                                 ),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Enter an Expiry Date";
-                                  }
-
-                                  List<String> parts = value.split('/');
-                                  if (parts.length != 2) {
-                                    return "Enter a valid Expiry Date";
-                                  }
-
-                                  int? month = int.tryParse(parts[0]);
-                                  int? year = int.tryParse(parts[1]);
-
-                                  if (month == null || year == null) {
-                                    return "Enter a valid Expiry Date";
-                                  }
-
-                                  if (month > 12 && year < 23) {
-                                    return "Enter the Expiry Date correctly";
-                                  }
-                                  if (month > 12) {
-                                    return "Enter the month correctly";
-                                  }
-                                  if (year < 23) {
-                                    return "Enter the year correctly";
-                                  }
-                                  return null;
-                                },
                               ),
-                            )),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 13, 213, 130),
+                                  width: 3,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 13, 213, 130),
+                                  width: 3,
+                                ),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Enter an Expiry Date";
+                              }
+
+                              List<String> parts = value.split('/');
+                              if (parts.length != 2) {
+                                return "Enter a valid Expiry Date";
+                              }
+
+                              int? month = int.tryParse(parts[0]);
+                              int? year = int.tryParse(parts[1]);
+
+                              if (month == null || year == null) {
+                                return "Enter a valid Expiry Date";
+                              }
+
+                              if (month > 12 && year < 23) {
+                                return "Enter the Expiry Date correctly";
+                              }
+                              if (month > 12) {
+                                return "Enter the month correctly";
+                              }
+                              if (year < 23) {
+                                return "Enter the year correctly";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -356,12 +434,9 @@ class _CreditcardState extends State<Creditcard> {
                               padding: const EdgeInsets.all(15),
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        blurRadius: 2, offset: Offset(0, 0))
-                                  ],
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.blue),
+                                borderRadius: BorderRadius.circular(20),
+                                color: const Color.fromARGB(255, 13, 213, 130),
+                              ),
                               child: const Center(
                                   child: Text(
                                 "Cancel",
@@ -382,13 +457,15 @@ class _CreditcardState extends State<Creditcard> {
                             });
                             if (isSuccessful) {
                               toNext(widget.tickets);
-                              String userId = FirebaseAuthProvider.authService().currentUser!.id;
-                              final docR = user.doc(userId); 
-                              await docR.update({
-                                'balance': balance
-                            });
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                bottomRoute, (route) => false);
+                              String userId = FirebaseAuthProvider.authService()
+                                  .currentUser!
+                                  .id;
+                              final docR = user.doc(userId);
+                              await docR.update({'balance': balance});
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  bottomRoute, (route) => false);
+                              await showSuccessDialog(
+                                  context, "Flight is booked");
                             }
                           },
                           child: Container(
@@ -396,12 +473,9 @@ class _CreditcardState extends State<Creditcard> {
                               padding: const EdgeInsets.all(15),
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        blurRadius: 2, offset: Offset(0, 0))
-                                  ],
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.blue),
+                                borderRadius: BorderRadius.circular(20),
+                                color: const Color.fromARGB(255, 13, 213, 130),
+                              ),
                               child: const Center(
                                   child: Text(
                                 "Confirm Payment",
@@ -413,30 +487,27 @@ class _CreditcardState extends State<Creditcard> {
                       )
                     ],
                   ),
-                 GestureDetector(
-                          onTap: () async {
-                            await discountBookingPrice();
-                            setState(() {});
-                          },
-                          child: Container(
-                              margin: const EdgeInsets.all(5),
-                              padding: const EdgeInsets.all(15),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                        blurRadius: 2, offset: Offset(0, 0))
-                                  ],
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.blue),
-                              child: const Center(
-                                  child: Text(
-                                "Discount Using Balance",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ))),
+                  GestureDetector(
+                    onTap: () async {
+                      await discountBookingPrice();
+                      setState(() {});
+                    },
+                    child: Container(
+                        margin: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(15),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color.fromARGB(255, 13, 213, 130),
                         ),
+                        child: const Center(
+                            child: Text(
+                          "Discount Using Balance",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ))),
+                  ),
                 ],
               ),
             ),

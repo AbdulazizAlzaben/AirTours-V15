@@ -521,6 +521,15 @@ class _RoundTripState extends State<RoundTrip> {
                           }); //new line
                           if (_formKey.currentState!.validate()) {
                             toNext();
+                            List<flightInformation> flightNameTestCopy =
+                                List.from(forSave);
+                            flightNameTest = flightNameTestCopy;
+                            // print("For save: " " ${forSave.length}");
+                            // print("flightNameTest: ${flightNameTest.length}");
+                            cityNameDel = null;
+                            cityNameDel2 = null;
+                            indexToUpdate = null;
+                            indexToUpdate2 = null;
                           }
                         }
                       },

@@ -16,6 +16,7 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   bool _isSecurePassword = true; //new line(_isSecurePassword)
+  bool _isSecurePassword2 = true;
   final FirebaseCloudStorage c = FirebaseCloudStorage();
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _email;
@@ -49,8 +50,35 @@ class _RegisterViewState extends State<RegisterView> {
         });
       },
       icon: _isSecurePassword
-          ? const Icon(Icons.visibility)
-          : const Icon(Icons.visibility_off),
+          ? const Icon(
+              Icons.visibility,
+              color: Colors.green,
+            )
+          : const Icon(
+              Icons.visibility_off,
+              color: Colors.green,
+            ),
+      color: Colors.grey,
+    );
+  }
+
+  Widget togglePassword2() {
+    //new widget (togglePassword)
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          _isSecurePassword2 = !_isSecurePassword2;
+        });
+      },
+      icon: _isSecurePassword2
+          ? const Icon(
+              Icons.visibility,
+              color: Colors.green,
+            )
+          : const Icon(
+              Icons.visibility_off,
+              color: Colors.green,
+            ),
       color: Colors.grey,
     );
   }
@@ -70,7 +98,7 @@ class _RegisterViewState extends State<RegisterView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 200,
                     child: Image.asset('images/AirTours-5.png'), //change image
                   ), //delet text contain('AirTours')
@@ -95,28 +123,38 @@ class _RegisterViewState extends State<RegisterView> {
                       },
                       controller: _email,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.mail,color: Colors.green,),
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(
+                          Icons.mail,
+                          color: Colors.green,
+                        ),
                         border: InputBorder.none,
-                        hintText: 'Email',
+                        labelText: 'Email',
+                        floatingLabelStyle:
+                            const TextStyle(color: Colors.green, fontSize: 18),
+                        contentPadding: const EdgeInsets.all(20),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                             width: 3,
                           ),
                         ),
                         errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Colors.red,
                           ),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                             width: 3,
                           ),
@@ -146,28 +184,37 @@ class _RegisterViewState extends State<RegisterView> {
                       obscureText: _isSecurePassword, //new line(obscureText)
                       decoration: InputDecoration(
                         border: InputBorder.none, //new line(border)
-                        prefixIcon:
-                            const Icon(Icons.key,color: Colors.green,), //new line(prefixIcon)
-                        hintText: 'Password',
+                        prefixIcon: const Icon(
+                          Icons.key,
+                          color: Colors.green,
+                        ), //new line(prefixIcon)
+                        labelText: 'Password',
                         suffixIcon: togglePassword(), //new line(suffixIcon)
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
+                        floatingLabelStyle:
+                            const TextStyle(color: Colors.green, fontSize: 18),
+                        contentPadding: const EdgeInsets.all(20),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                           ),
                         ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                             width: 3,
                           ),
                         ),
-                        errorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Colors.red,
                           ),
                         ),
-                        focusedErrorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                             width: 3,
                           ),
@@ -184,11 +231,10 @@ class _RegisterViewState extends State<RegisterView> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Enter password";
-                        } 
+                        }
                         if (_password.text != _password2.text) {
                           return "Password doesn't match!";
-                        }
-                        else {
+                        } else {
                           return null;
                         }
                       },
@@ -197,28 +243,37 @@ class _RegisterViewState extends State<RegisterView> {
                       obscureText: _isSecurePassword, //new line (obscureText)
                       decoration: InputDecoration(
                         border: InputBorder.none, //new line(border)
-                        prefixIcon:
-                            const Icon(Icons.key,color: Colors.green,), //new line(prefixIcon)
-                        hintText: 'Confirm Password',
-                        suffixIcon: togglePassword(), //new line(suffixIcon)
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
+                        prefixIcon: const Icon(
+                          Icons.key,
+                          color: Colors.green,
+                        ), //new line(prefixIcon)
+                        labelText: 'Confirm Password',
+                        suffixIcon: togglePassword2(), //new line(suffixIcon)
+                        floatingLabelStyle:
+                            const TextStyle(color: Colors.green, fontSize: 18),
+                        contentPadding: const EdgeInsets.all(20),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                           ),
                         ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                             width: 3,
                           ),
                         ),
-                        errorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Colors.red,
                           ),
                         ),
-                        focusedErrorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                             width: 3,
                           ),
@@ -249,28 +304,38 @@ class _RegisterViewState extends State<RegisterView> {
                       },
                       controller: _phoneNum,
                       keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.phone,color: Colors.green,), //new line(prefixIcon)
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(
+                          Icons.phone,
+                          color: Colors.green,
+                        ), //new line(prefixIcon)
                         border: InputBorder.none,
-                        hintText: 'Phone Number (Begins With 05)',
+                        labelText: 'Phone Number 05********',
+                        floatingLabelStyle:
+                            const TextStyle(color: Colors.green, fontSize: 18),
+                        contentPadding: const EdgeInsets.all(20),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                             width: 3,
                           ),
                         ),
                         errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Colors.red,
                           ),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                             width: 3,
                           ),
@@ -282,49 +347,48 @@ class _RegisterViewState extends State<RegisterView> {
                   MyButton(
                       title: 'Register',
                       onPressed: () async {
-                           bool isSuccessful = false;
-                    setState(() {
-                      if (_formKey.currentState!.validate()) {
-                          isSuccessful = true;
-                        }
-                      });
-                    if (isSuccessful) {
-                        final email = _email.text;
-                            try {
-                              await FirebaseAuthProvider.authService()
-                                  .createUser(email: email, password: _password.text);
+                        bool isSuccessful = false;
+                        setState(() {
+                          if (_formKey.currentState!.validate()) {
+                            isSuccessful = true;
+                          }
+                        });
+                        if (isSuccessful) {
+                          final email = _email.text;
+                          try {
+                            await FirebaseAuthProvider.authService().createUser(
+                                email: email, password: _password.text);
 
-                              final String userId =
-                                  FirebaseAuthProvider.authService()
-                                      .currentUser!
-                                      .id;
-                              final String currentEmail =
-                                  FirebaseAuthProvider.authService()
-                                      .currentUser!
-                                      .email;
-                              c.createNewUser(
-                                  ownerUserId: userId,
-                                  email: currentEmail,
-                                  phoneNum: _phoneNum.text,
-                                  balance: 0.0);
-                              FirebaseAuthProvider.authService()
-                                  .sendEmailVerification();
-                              await Navigator.of(context)
-                                  .pushNamed(verficationRoute);
-                            } on WeakPasswordAuthException {
-                              await showErrorDialog(context, 'Weak password');
-                            } on EmailAlreadyInUseAuthException {
-                              await showErrorDialog(
-                                  context, 'Email already in use');
-                            } on InvalidEmailAuthException {
-                              await showErrorDialog(
-                                  context, 'This is an invalid email');
-                            } on GenericAuthException {
-                              await showErrorDialog(
-                                  context, 'Failed to register');
-                            }
-                    }
-                          
+                            final String userId =
+                                FirebaseAuthProvider.authService()
+                                    .currentUser!
+                                    .id;
+                            final String currentEmail =
+                                FirebaseAuthProvider.authService()
+                                    .currentUser!
+                                    .email;
+                            c.createNewUser(
+                                ownerUserId: userId,
+                                email: currentEmail,
+                                phoneNum: _phoneNum.text,
+                                balance: 0.0);
+                            FirebaseAuthProvider.authService()
+                                .sendEmailVerification();
+                            await Navigator.of(context)
+                                .pushNamed(verficationRoute);
+                          } on WeakPasswordAuthException {
+                            await showErrorDialog(context, 'Weak password');
+                          } on EmailAlreadyInUseAuthException {
+                            await showErrorDialog(
+                                context, 'Email already in use');
+                          } on InvalidEmailAuthException {
+                            await showErrorDialog(
+                                context, 'This is an invalid email');
+                          } on GenericAuthException {
+                            await showErrorDialog(
+                                context, 'Failed to register');
+                          }
+                        }
                       }),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

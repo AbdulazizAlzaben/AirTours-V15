@@ -59,9 +59,21 @@ class _ProfileViewState extends State<ProfileView> {
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Add Balance',
-                        style: TextStyle(fontSize: 16.0, color: Colors.black),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.wallet,
+                            color: Colors.green,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Wallet Recharge",
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.black),
+                          ),
+                        ],
                       ),
                       Text(
                         '>',
@@ -92,9 +104,21 @@ class _ProfileViewState extends State<ProfileView> {
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Change Email',
-                        style: TextStyle(fontSize: 16.0, color: Colors.black),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.email,
+                            color: Colors.green,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Change Email',
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.black),
+                          ),
+                        ],
                       ),
                       Text(
                         '>',
@@ -125,9 +149,21 @@ class _ProfileViewState extends State<ProfileView> {
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Change Password',
-                        style: TextStyle(fontSize: 16.0, color: Colors.black),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.published_with_changes_sharp,
+                            color: Colors.green,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Change Password',
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.black),
+                          ),
+                        ],
                       ),
                       Text(
                         '>',

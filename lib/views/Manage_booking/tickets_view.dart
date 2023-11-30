@@ -178,7 +178,7 @@ class _TicketsViewState extends State<TicketsView> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(ticket.mealType),
-                                  Text("${ticket.bagQuantity}")
+                                  Text("${ticket.bagQuantity}PC")
                                 ],
                               ),
                               Container(

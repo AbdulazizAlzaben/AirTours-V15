@@ -9,7 +9,6 @@ import '../../services_auth/firebase_auth_provider.dart';
 import '../../utilities/button.dart';
 import '../../utilities/show_error.dart';
 
-
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -47,8 +46,14 @@ class _LoginViewState extends State<LoginView> {
         });
       },
       icon: _isSecurePassword
-          ? const Icon(Icons.visibility)
-          : const Icon(Icons.visibility_off),
+          ? const Icon(
+              Icons.visibility,
+              color: Colors.green,
+            )
+          : const Icon(
+              Icons.visibility_off,
+              color: Colors.green,
+            ),
       color: Colors.grey,
     );
   }
@@ -72,14 +77,6 @@ class _LoginViewState extends State<LoginView> {
                     height: 200,
                     child: Image.asset('images/AirTours-5.png'), //new image
                   ),
-                  // const Text(
-                  //   'AirTours',
-                  //   textAlign: TextAlign.center,
-                  //   style: TextStyle(
-                  //       color: Color.fromRGBO(21, 132, 71, 100),
-                  //       fontSize: 40,
-                  //       fontWeight: FontWeight.w900),
-                  // ),
                   const SizedBox(height: 30),
                   Container(
                     decoration: BoxDecoration(
@@ -98,31 +95,40 @@ class _LoginViewState extends State<LoginView> {
                           return null;
                         }
                       },
-                      //textAlign: TextAlign.center, //this one remove
                       controller: _email,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.mail,color: Colors.green,), //new line(prefixIcon)
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(
+                          Icons.mail,
+                          color: Colors.green,
+                        ), //new line(prefixIcon)
                         border: InputBorder.none, //new line(border)
-                        hintText: 'Email',
+                        labelText: 'Email',
+                        floatingLabelStyle:
+                            const TextStyle(color: Colors.green, fontSize: 18),
+                        contentPadding: const EdgeInsets.all(20),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                             width: 3,
                           ),
                         ),
                         errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Colors.red,
                           ),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                             width: 3,
                           ),
@@ -143,33 +149,41 @@ class _LoginViewState extends State<LoginView> {
                           return null;
                         }
                       },
-                      //textAlign: TextAlign.center, //this one remove
                       controller: _password,
                       obscureText: _isSecurePassword, //new line(obscureText)
                       decoration: InputDecoration(
                         border: InputBorder.none, //new line(border)
-                        prefixIcon:
-                            const Icon(Icons.lock,color: Colors.green,), //new line(prefixIcon)
-                        hintText: 'Password',
+                        prefixIcon: const Icon(
+                          Icons.key,
+                          color: Colors.green,
+                        ), //new line(prefixIcon)
+                        labelText: 'Password',
                         suffixIcon: togglePassword(), //new line(suffixIcon)
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
+                        floatingLabelStyle:
+                            const TextStyle(color: Colors.green, fontSize: 18),
+                        contentPadding: const EdgeInsets.all(20),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                           ),
                         ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                             width: 3,
                           ),
                         ),
-                        errorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Colors.red,
                           ),
                         ),
-                        focusedErrorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 13, 213, 130),
                             width: 3,
                           ),
@@ -182,55 +196,57 @@ class _LoginViewState extends State<LoginView> {
                       title: 'Login',
                       onPressed: () async {
                         bool isSuccessful = false;
-                    setState(() {
-                      if (_formKey.currentState!.validate()) {
-                          isSuccessful = true;
-                        }
-                      });
-                    if (isSuccessful) {
-                      final email = _email.text;
-                      final pass = _password.text;
-                      try {
-                        await FirebaseAuthProvider.authService()
-                            .logIn(email: email, password: pass);
-                        final user =
-                            FirebaseAuthProvider.authService().currentUser;
-                        final isUserr = await c.isUser(ownerUserId: user!.id);
-                        final isAdminn = await c.isAdmin(email: email);
-                        if (isUserr) {
-                          if (isAdminn) {
-                            if (user.isEmailVerified) {
-                              await Navigator.of(context)
-                                  .pushNamedAndRemoveUntil(
-                                      createFlightRoute, (route) => false);
-                            } else {
-                              await Navigator.of(context)
-                                  .pushNamedAndRemoveUntil(
-                                      verficationRoute, (route) => false);
-                            }
-                          } else {
-                            if (user.isEmailVerified) {
-                              await Navigator.of(context)
-                                  .pushNamedAndRemoveUntil(
-                                      bottomRoute, (route) => false);
-                            } else {
-                              await Navigator.of(context)
-                                  .pushNamedAndRemoveUntil(
-                                      verficationRoute, (route) => false);
-                            }
+                        setState(() {
+                          if (_formKey.currentState!.validate()) {
+                            isSuccessful = true;
                           }
-                        } else {
-                          await showErrorDialog(context,
-                              'User is Not Registered in the database');
+                        });
+                        if (isSuccessful) {
+                          final email = _email.text;
+                          final pass = _password.text;
+                          try {
+                            await FirebaseAuthProvider.authService()
+                                .logIn(email: email, password: pass);
+                            final user =
+                                FirebaseAuthProvider.authService().currentUser;
+                            final isUserr =
+                                await c.isUser(ownerUserId: user!.id);
+                            final isAdminn = await c.isAdmin(email: email);
+                            if (isUserr) {
+                              if (isAdminn) {
+                                if (user.isEmailVerified) {
+                                  await Navigator.of(context)
+                                      .pushNamedAndRemoveUntil(
+                                          createFlightRoute, (route) => false);
+                                } else {
+                                  await Navigator.of(context)
+                                      .pushNamedAndRemoveUntil(
+                                          verficationRoute, (route) => false);
+                                }
+                              } else {
+                                if (user.isEmailVerified) {
+                                  await Navigator.of(context)
+                                      .pushNamedAndRemoveUntil(
+                                          bottomRoute, (route) => false);
+                                } else {
+                                  await Navigator.of(context)
+                                      .pushNamedAndRemoveUntil(
+                                          verficationRoute, (route) => false);
+                                }
+                              }
+                            } else {
+                              await showErrorDialog(context,
+                                  'User is Not Registered in the database');
+                            }
+                          } on UserNotFoundAuthException {
+                            await showErrorDialog(context, 'User Not Found');
+                          } on WrongPasswordAuthException {
+                            await showErrorDialog(context, 'Wrong Credentials');
+                          } on GenericAuthException {
+                            await showErrorDialog(
+                                context, 'Authentication Error');
+                          }
                         }
-                      } on UserNotFoundAuthException {
-                        await showErrorDialog(context, 'User Not Found');
-                      } on WrongPasswordAuthException {
-                        await showErrorDialog(context, 'Wrong Credentials');
-                      } on GenericAuthException {
-                        await showErrorDialog(context, 'Authentication Error');
-                      }
-                    }
                       }),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -241,16 +257,16 @@ class _LoginViewState extends State<LoginView> {
                       TextButton(
                           onPressed: () async {
                             await Navigator.of(context).pushNamedAndRemoveUntil(
-                              registerRoute, (route) => false);
+                                registerRoute, (route) => false);
                           },
                           child: const Text("Register Now"))
                     ],
                   ),
                   TextButton(
-                  onPressed: () async {
-                    await Navigator.of(context).pushNamed(resetView);
-                  },
-                   child: const Text("Forgot Password"))
+                      onPressed: () async {
+                        await Navigator.of(context).pushNamed(resetView);
+                      },
+                      child: const Text("Forgot Password"))
                 ],
               ),
             ),
