@@ -18,10 +18,10 @@ import 'package:AirTours/views/Welcome_pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'constants/pages_route.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: const HomePage(),
     routes: {
       loginRoute: (context) => const LoginView(),
@@ -33,20 +33,20 @@ Future<void> main() async {
       addAdminRoute: (context) => const AddAdmin(),
       updateEmailRoute: (context) => const UpdateEmailView(),
       updatePasswordRoute: (context) => const UpdatePasswordView(),
-      addBalanceRoute:(context) => const AddBalance(),
+      addBalanceRoute: (context) => const AddBalance(),
       profileRoute: (context) => const ProfileView(),
       loginForEmailChangesRoute: (context) => const LoginForEmailChanges(),
-      loginForPasswordChangesRoute: (context) => const LoginForPasswordChanges(),
-      loginForDeleteRoute:(context) => const LoginForDelete(),
-      upgradeCard:(context) => const UpgradeCard(),
-      resetView:(context) => const ResetPassword() 
+      loginForPasswordChangesRoute: (context) =>
+          const LoginForPasswordChanges(),
+      loginForDeleteRoute: (context) => const LoginForDelete(),
+      upgradeCard: (context) => const UpgradeCard(),
+      resetView: (context) => const ResetPassword()
     },
   ));
 }
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
 
   @override
   Widget build(BuildContext context) {

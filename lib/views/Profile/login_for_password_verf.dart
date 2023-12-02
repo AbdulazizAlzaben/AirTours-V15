@@ -191,7 +191,7 @@ class _LoginForPasswordChangesState extends State<LoginForPasswordChanges> {
                     }
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(left: 8, right: 8),
+                    margin: const EdgeInsets.only(left: 5, right: 5),
                     padding: const EdgeInsets.all(15),
                     width: double.infinity,
                     decoration: BoxDecoration(

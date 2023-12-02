@@ -37,46 +37,64 @@ class _AddAdminState extends State<AddAdmin> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  //new line (container and all of it is inside)
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(left: 8, right: 8), //0
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 13, 213,
-                            130), //new line(border) and(color) Green color
-                      ),
-                      boxShadow: const [
-                        BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                      ],
-                      borderRadius: BorderRadius.circular(13),
-                      color: Colors.white),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
                   child: TextFormField(
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
                         Icons.mail,
                         color: Colors.green,
                       ), //new line(prefixIcon)
                       border: InputBorder.none,
                       labelText: 'Email',
+                      floatingLabelStyle:
+                          const TextStyle(color: Colors.green, fontSize: 18),
+                      contentPadding: const EdgeInsets.all(20),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                          width: 3,
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                          width: 3,
+                        ),
+                      ),
                     ),
                     validator: (value) {
-                      if (value!.isEmpty ||
-                          !RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z]+\.(com)$')
-                              .hasMatch(value)) {
-                        return 'Enter correct email';
+                      if (value!.isEmpty) {
+                        return 'Enter Email';
+                      }
+                      if (!RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z]+\.(com)$')
+                          .hasMatch(value)) {
+                        return 'Enter correct Email';
                       } else {
                         return null;
                       }
                     },
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () async {
+                const SizedBox(height: 8.0),
+                GestureDetector(
+                  onTap: () async {
                     bool isSuccessful = false;
                     setState(() {
                       if (formKey.currentState!.validate()) {
@@ -101,15 +119,10 @@ class _AddAdminState extends State<AddAdmin> {
                     }
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(left: 8, right: 8),
+                    margin: const EdgeInsets.only(left: 5, right: 5),
                     padding: const EdgeInsets.all(15),
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                              blurRadius: 1,
-                              offset: Offset(0, 0)) //change blurRadius
-                        ],
                         borderRadius: BorderRadius.circular(10),
                         color: const Color.fromARGB(255, 13, 213, 130)),
                     child: const Center(

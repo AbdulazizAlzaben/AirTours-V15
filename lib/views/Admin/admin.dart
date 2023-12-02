@@ -1,4 +1,3 @@
-
 import 'package:AirTours/constants/pages_route.dart';
 import 'package:AirTours/utilities/show_feedback.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -107,7 +106,7 @@ class _CreateFlightState extends State<CreateFlight> {
     return newFlight;
   }
 
- void _navigateToCitySelectionPage(BuildContext context, int num) async {
+  void _navigateToCitySelectionPage(BuildContext context, int num) async {
     final city = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -836,10 +835,6 @@ class _CreateFlightState extends State<CreateFlight> {
                                   margin: const EdgeInsets.all(5),
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                      boxShadow: const [
-                                        BoxShadow(
-                                            blurRadius: 2, offset: Offset(0, 0))
-                                      ],
                                       borderRadius: BorderRadius.circular(15),
                                       color: const Color.fromARGB(
                                           255, 13, 213, 130)),

@@ -101,6 +101,7 @@ class _AddBalanceState extends State<AddBalance> {
                     }
                   },
                   child: Container(
+                    margin: const EdgeInsets.only(left: 0, right: 0),
                     padding: const EdgeInsets.all(15),
                     width: double.infinity,
                     decoration: BoxDecoration(

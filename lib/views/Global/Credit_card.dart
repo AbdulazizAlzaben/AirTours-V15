@@ -11,6 +11,7 @@ import '../../services/cloud/firestore_booking.dart';
 import '../../services/cloud/firestore_ticket.dart';
 import '../../services_auth/firebase_auth_provider.dart';
 import '../../utilities/show_error.dart';
+import 'flight_class_for_search.dart';
 
 class Creditcard extends StatefulWidget {
   final String id1;
@@ -410,7 +411,7 @@ class _CreditcardState extends State<Creditcard> {
                               if (month > 12) {
                                 return "Enter the month correctly";
                               }
-                              if (year < 23) {
+                              if (year < 24) {
                                 return "Enter the year correctly";
                               }
                               return null;
@@ -466,6 +467,14 @@ class _CreditcardState extends State<Creditcard> {
                                   bottomRoute, (route) => false);
                               await showSuccessDialog(
                                   context, "Flight is booked");
+
+                              List<flightInformation> flightNameTestCopy =
+                                  List.from(forSave);
+                              flightNameTest = flightNameTestCopy;
+                              cityNameDel = null;
+                              cityNameDel2 = null;
+                              indexToUpdate = null;
+                              indexToUpdate2 = null;
                             }
                           },
                           child: Container(

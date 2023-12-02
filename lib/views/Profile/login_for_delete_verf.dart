@@ -27,7 +27,6 @@ class _LoginForDeleteState extends State<LoginForDelete> {
     super.initState();
   }
 
-  
   Widget togglePassword() {
     //new widget (togglePassword)
     return IconButton(
@@ -57,63 +56,102 @@ class _LoginForDeleteState extends State<LoginForDelete> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  //new line (container and all of it is inside)
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(left: 8, right: 8), //0
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 13, 213,
-                            130), //new line(border) and(color) Green color
-                      ),
-                      boxShadow: const [
-                        BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                      ],
-                      borderRadius: BorderRadius.circular(13),
-                      color: Colors.white),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
                   child: TextFormField(
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.mail,color: Colors.green,), //new line(prefixIcon)
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
+                        Icons.mail,
+                        color: Colors.green,
+                      ), //new line(prefixIcon)
                       border: InputBorder.none,
                       labelText: 'Email',
+                      floatingLabelStyle:
+                          const TextStyle(color: Colors.green, fontSize: 18),
+                      contentPadding: const EdgeInsets.all(20),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                          width: 3,
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                          width: 3,
+                        ),
+                      ),
                     ),
                     validator: (value) {
-                      if (value!.isEmpty || !RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z]+\.(com)$').hasMatch(value)) {
+                      if (value!.isEmpty ||
+                          !RegExp(r'^[a-zA-Z0-9]+@[a-zA-Z]+\.(com)$')
+                              .hasMatch(value)) {
                         return 'Enter correct email';
                       } else {
                         return null;
-                      } 
+                      }
                     },
-                  
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                Container(
-                  //new line (container and all of it is inside)
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(left: 8, right: 8), //0
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 13, 213,
-                            130), //new line(border) and(color) Green color
-                      ),
-                      boxShadow: const [
-                        BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                      ],
-                      borderRadius: BorderRadius.circular(13),
-                      color: Colors.white),
+                const SizedBox(height: 3.0),
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
                   child: TextFormField(
                     controller: _password,
                     obscureText: _isSecurePassword, //new line(obscureText)
                     decoration: InputDecoration(
                       border: InputBorder.none, //new line(border)
-                      prefixIcon: const Icon(Icons.key,color: Colors.green,), //new line(prefixIcon)
+                      prefixIcon: const Icon(
+                        Icons.key,
+                        color: Colors.green,
+                      ), //new line(prefixIcon)
                       hintText: 'Password',
-                      suffixIcon: togglePassword(), //new line(suffixIcon)
+                      suffixIcon: togglePassword(),
+                      floatingLabelStyle:
+                          const TextStyle(color: Colors.green, fontSize: 18),
+                      contentPadding: const EdgeInsets.all(20),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                          width: 3,
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color.fromARGB(255, 13, 213, 130),
+                          width: 3,
+                        ),
+                      ), //new line(suffixIcon)
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -124,19 +162,19 @@ class _LoginForDeleteState extends State<LoginForDelete> {
                     },
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () async {
+                const SizedBox(height: 5.0),
+                GestureDetector(
+                  onTap: () async {
                     bool isSuccessful = false;
                     setState(() {
                       if (formKey.currentState!.validate()) {
-                          isSuccessful = true;
-                        }
-                      });
+                        isSuccessful = true;
+                      }
+                    });
                     if (isSuccessful) {
                       try {
-                        await FirebaseAuthProvider.authService()
-                            .logIn(email: _email.text, password: _password.text);
+                        await FirebaseAuthProvider.authService().logIn(
+                            email: _email.text, password: _password.text);
                         final userId =
                             FirebaseAuthProvider.authService().currentUser!.id;
                         await c.deleteUser(ownerUserId: userId);
@@ -179,4 +217,3 @@ class _LoginForDeleteState extends State<LoginForDelete> {
     );
   }
 }
-

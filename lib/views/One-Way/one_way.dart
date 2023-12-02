@@ -353,9 +353,15 @@ class _OneWayState extends State<OneWay> {
                                   onTap: () {
                                     setState(() {
                                       String? saveCityName;
+                                      String? saveCityDelName;
                                       saveCityName = selectedCity2;
+                                      saveCityDelName = cityNameDel2;
+
                                       selectedCity2 = selectedCity1;
                                       selectedCity1 = saveCityName;
+
+                                      cityNameDel2 = cityNameDel;
+                                      cityNameDel = saveCityDelName;
                                     });
                                   },
                                   child:
@@ -521,15 +527,13 @@ class _OneWayState extends State<OneWay> {
                           }); //new line
                           if (_formKey.currentState!.validate()) {
                             toNext();
-                            List<flightInformation> flightNameTestCopy =
-                                List.from(forSave);
-                            flightNameTest = flightNameTestCopy;
-                            // print("For save: " " ${forSave.length}");
-                            // print("flightNameTest: ${flightNameTest.length}");
-                            cityNameDel = null;
-                            cityNameDel2 = null;
-                            indexToUpdate = null;
-                            indexToUpdate2 = null;
+                            // List<flightInformation> flightNameTestCopy =
+                            //     List.from(forSave);
+                            // flightNameTest = flightNameTestCopy;
+                            // cityNameDel = null;
+                            // cityNameDel2 = null;
+                            // indexToUpdate = null;
+                            // indexToUpdate2 = null;
                           }
                         }
                       },

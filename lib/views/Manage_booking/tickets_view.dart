@@ -199,7 +199,7 @@ class _TicketsViewState extends State<TicketsView> {
                                         color: Colors.black87,
                                       )),
                                   Text(
-                                    "${ticket.ticketPrice}",
+                                    "${ticket.ticketPrice} SAR",
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18),
@@ -245,9 +245,6 @@ class _TicketsViewState extends State<TicketsView> {
                             width: double.infinity,
                             margin: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
-                              boxShadow: const [
-                                BoxShadow(blurRadius: 2, offset: Offset(0, 0))
-                              ],
                               borderRadius: BorderRadius.circular(10),
                               color: const Color.fromARGB(255, 13, 213, 130),
                             ),
